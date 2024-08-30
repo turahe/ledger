@@ -1,0 +1,30 @@
+{
+    "name": "turahe/ledger",
+    "description": "",
+    "authors": [
+        {
+            "name": "Nur Wachid",
+            "email": "wachid@outlook.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\Ledger\\": "app/",
+            "Modules\\Ledger\\Database\\Factories\\": "database/factories/",
+            "Modules\\Ledger\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\Ledger\\Tests\\": "tests/"
+        }
+    }
+}
