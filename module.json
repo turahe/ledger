@@ -7,5 +7,8 @@
     "providers": [
         "Modules\\Ledger\\Providers\\LedgerServiceProvider"
     ],
-    "files": []
+    "files": [],
+    "id": "08",
+    "title": "Site module ledger",
+    "version": "v1.0"
 }
