@@ -12,9 +12,7 @@
             "providers": [
                 "Modules\\Ledger\\Providers\\LedgerServiceProvider"
             ],
-            "aliases": {
-
-            }
+            "aliases": {}
         }
     },
     "autoload": {

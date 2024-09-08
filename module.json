@@ -4,9 +4,7 @@
     "description": "",
     "keywords": [],
     "priority": 0,
-    "providers": [
-        "Modules\\Ledger\\Providers\\LedgerServiceProvider"
-    ],
+    "providers": ["Modules\\Ledger\\Providers\\LedgerServiceProvider"],
     "files": [],
     "id": "08",
     "title": "Site module ledger",

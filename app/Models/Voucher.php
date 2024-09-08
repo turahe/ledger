@@ -2,11 +2,12 @@
 
 namespace Modules\Ledger\Models;
 
-use App\Models\Organization;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Modules\Ledger\Enums\RecordEntry;
 use Modules\Ledger\Models\Voucher\Item;
+use Modules\User\Models\Organization;
 use Sqits\UserStamps\Concerns\HasUserStamps;
 
 /**
@@ -37,12 +38,12 @@ use Sqits\UserStamps\Concerns\HasUserStamps;
  * @property-read \Modules\Auth\Models\User|null $author
  * @property-read \Modules\Auth\Models\User|null $destroyer
  * @property-read \Modules\Auth\Models\User|null $editor
- * @property-read \App\Models\Organization|null $insurance_provider
+ * @property-read \Modules\User\Models\Organization|null $insurance_provider
  * @property-read \Illuminate\Database\Eloquent\Collection<int, Item> $items
  * @property-read int|null $items_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Modules\Ledger\Models\Invoice> $payments
  * @property-read int|null $payments_count
- * @property-read \App\Models\Organization|null $shipping_provider
+ * @property-read \Modules\User\Models\Organization|null $shipping_provider
  * @method static \Illuminate\Database\Eloquent\Builder|Voucher newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Voucher newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Voucher query()
@@ -89,6 +90,7 @@ class Voucher extends Model
             'metadata' => 'object',
             'due_date' => 'datetime',
             'issue_date' => 'datetime',
+            'record_entry' => RecordEntry::class,
         ];
     }
 
