@@ -15,15 +15,6 @@ class LedgerServiceProvider extends ServiceProvider
     }
 
     /**
-     * Register the service provider.
-     */
-    public function register(): void
-    {
-        $this->app->register(EventServiceProvider::class);
-        $this->app->register(RouteServiceProvider::class);
-    }
-
-    /**
      * Register config.
      */
     protected function registerConfig(): void
