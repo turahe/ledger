@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('invoice_payments', function (Blueprint $table) {
             $table->ulid('id')->primary();
-            $table->foreignIdFor(\Modules\Ledger\Models\Invoice::class, 'invoice_id')->index();
-            $table->foreignIdFor(\Modules\Ledger\Models\Voucher::class, 'receipt_id')->index();
+            $table->foreignIdFor(\Turahe\Ledger\Models\Invoice::class, 'invoice_id')->index();
+            $table->foreignIdFor(\Turahe\Ledger\Models\Voucher::class, 'receipt_id')->index();
 
             $table->string('currency')->default('IDR')->index();
             $table->foreign('currency')

@@ -2,18 +2,22 @@
 
 namespace Turahe\Ledger\Models;
 
+use ALajusticia\Expirable\Traits\Expirable;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Turahe\Ledger\Enums\RecordEntry;
 use Turahe\Ledger\Models\Voucher\Item;
 use Turahe\User\Models\Organization;
-use Sqits\UserStamps\Concerns\HasUserStamps;
+use Turahe\UserStamps\Concerns\HasUserStamps;
 
 class Voucher extends Model
 {
+    use Expirable;
     use HasUlids;
     use HasUserStamps;
+
+    const EXPIRES_AT = 'due_date';
 
     /**
      * @var string
@@ -33,22 +37,15 @@ class Voucher extends Model
         ];
     }
 
-    /**
-     * @return BelongsTo
-     */
     public function shipping_provider(): BelongsTo
     {
         return $this->belongsTo(Organization::class, 'shipping_provider_id');
     }
 
-    /**
-     * @return BelongsTo
-     */
     public function insurance_provider(): BelongsTo
     {
         return $this->belongsTo(Organization::class, 'insurance_provider_id');
     }
-
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
@@ -83,5 +80,4 @@ class Voucher extends Model
         ]);
 
     }
-
 }

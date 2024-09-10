@@ -122,5 +122,4 @@ enum PaymentMethods: string
 
     case CONVINIENT_STORE_LAWSON = 'CONVINIENT_STORE_LAWSON';
 
-
 }

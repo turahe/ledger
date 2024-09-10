@@ -7,15 +7,10 @@
             "email": "wachid@outlook.com"
         }
     ],
-    "repositories": [
-        {
-            "url": "https://github.com/turahe/laravel-userstamps.git",
-            "type": "git"
-        }
-    ],
     "require": {
-        "php": "^8.3",
-        "sqits/laravel-userstamps": "dev-master"
+        "php": "^8.1",
+        "alajusticia/laravel-expirable": "^2.0",
+        "turahe/laravel-userstamps": "^1.0"
     },
     "extra": {
         "laravel": {
@@ -34,5 +29,9 @@
         "psr-4": {
             "Turahe\\Ledger\\Tests\\": "tests/"
         }
+    },
+    "require-dev": {
+        "laravel/pint": "^1.17",
+        "orchestra/testbench": "^9.4"
     }
 }

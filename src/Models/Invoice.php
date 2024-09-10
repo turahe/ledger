@@ -2,14 +2,13 @@
 
 namespace Turahe\Ledger\Models;
 
+use ALajusticia\Expirable\Traits\Expirable;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Model;
 use Turahe\Ledger\Models\Invoice\Item;
-use Sqits\UserStamps\Concerns\HasUserStamps;
+use Turahe\UserStamps\Concerns\HasUserStamps;
 
 /**
- *
- *
  * @property string $id
  * @property string $model_type
  * @property string $model_id
@@ -53,6 +52,7 @@ use Sqits\UserStamps\Concerns\HasUserStamps;
  * @property-read int|null $items_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Turahe\Ledger\Models\Voucher> $payments
  * @property-read int|null $payments_count
+ *
  * @method static \Illuminate\Database\Eloquent\Builder|Invoice newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Invoice newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Invoice query()
@@ -92,12 +92,16 @@ use Sqits\UserStamps\Concerns\HasUserStamps;
  * @method static \Illuminate\Database\Eloquent\Builder|Invoice whereTransactionFee($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Invoice whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Invoice whereUpdatedBy($value)
+ *
  * @mixin \Eloquent
  */
 class Invoice extends Model
 {
+    use Expirable;
     use HasUlids;
     use HasUserStamps;
+
+    const EXPIRES_AT = 'due_date';
 
     /**
      * @var string

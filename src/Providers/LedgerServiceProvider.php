@@ -6,13 +6,12 @@ use Illuminate\Support\ServiceProvider;
 
 class LedgerServiceProvider extends ServiceProvider
 {
-
     /**
      * Boot the application events.
      */
     public function boot(): void
     {
-        $this->loadMigrationsFrom(__DIR__  .'./../../database/migrations');
+        $this->loadMigrationsFrom(__DIR__.'./../../database/migrations');
     }
 
     /**
@@ -29,7 +28,7 @@ class LedgerServiceProvider extends ServiceProvider
      */
     protected function registerConfig(): void
     {
-        $this->publishes([__DIR__  .'./../../config/config.php' => 'ledger.php'], 'config');
-        $this->mergeConfigFrom(__DIR__  .'./../../config/config.php', 'ledger');
+        $this->publishes([__DIR__.'./../../config/config.php' => 'ledger.php'], 'config');
+        $this->mergeConfigFrom(__DIR__.'./../../config/config.php', 'ledger');
     }
 }

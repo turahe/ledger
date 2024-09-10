@@ -5,11 +5,9 @@ namespace Turahe\Ledger\Models\Voucher;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Model;
 use Turahe\Ledger\Models\Voucher;
-use Sqits\UserStamps\Concerns\HasUserStamps;
+use Turahe\UserStamps\Concerns\HasUserStamps;
 
 /**
- *
- *
  * @property string $id
  * @property string $voucher_id
  * @property string $model_type
@@ -33,6 +31,7 @@ use Sqits\UserStamps\Concerns\HasUserStamps;
  * @property-read \Turahe\Auth\Models\User|null $destroyer
  * @property-read \Turahe\Auth\Models\User|null $editor
  * @property-read Voucher|null $voucher
+ *
  * @method static \Illuminate\Database\Eloquent\Builder|Item newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Item newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Item query()
@@ -55,6 +54,7 @@ use Sqits\UserStamps\Concerns\HasUserStamps;
  * @method static \Illuminate\Database\Eloquent\Builder|Item whereUpdatedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Item whereValue($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Item whereVoucherId($value)
+ *
  * @mixin \Eloquent
  */
 class Item extends Model

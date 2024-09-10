@@ -54,7 +54,7 @@ return new class extends Migration
 
         Schema::create('voucher_items', function (Blueprint $table) {
             $table->ulid('id')->primary();
-            $table->foreignIdFor(\Modules\Ledger\Models\Voucher::class, 'voucher_id')->index();
+            $table->foreignIdFor(\Turahe\Ledger\Models\Voucher::class, 'voucher_id')->index();
 
             $table->ulidMorphs('model');
             $table->decimal('quantity', 64)->default(1);

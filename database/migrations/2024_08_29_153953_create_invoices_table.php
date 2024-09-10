@@ -76,7 +76,7 @@ return new class extends Migration
 
         Schema::create('invoice_items', function (Blueprint $table) {
             $table->ulid('id')->primary();
-            $table->foreignIdFor(\Modules\Ledger\Models\Invoice::class, 'invoice_id')->index();
+            $table->foreignIdFor(\Turahe\Ledger\Models\Invoice::class, 'invoice_id')->index();
 
             $table->ulidMorphs('model');
             $table->decimal('quantity', 64)->default(1);

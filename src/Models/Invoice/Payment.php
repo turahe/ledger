@@ -2,15 +2,19 @@
 
 namespace Turahe\Ledger\Models\Invoice;
 
+use ALajusticia\Expirable\Traits\Expirable;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 use Turahe\Ledger\Enums\PaymentMethods;
-use Sqits\UserStamps\Concerns\HasUserStamps;
+use Turahe\UserStamps\Concerns\HasUserStamps;
 
 class Payment extends Pivot
 {
+    use Expirable;
     use HasUlids;
     use HasUserStamps;
+
+    const EXPIRES_AT = 'payment_expires_at';
 
     public $dateFormat = 'U';
 
