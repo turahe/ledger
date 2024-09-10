@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Ledger\Enums;
+namespace Turahe\Ledger\Enums;
 
 enum Transaction: string
 {

@@ -7,24 +7,32 @@
             "email": "wachid@outlook.com"
         }
     ],
+    "repositories": [
+        {
+            "url": "https://github.com/turahe/laravel-userstamps.git",
+            "type": "git"
+        }
+    ],
+    "require": {
+        "php": "^8.3",
+        "sqits/laravel-userstamps": "dev-master"
+    },
     "extra": {
         "laravel": {
             "providers": [
-                "Modules\\Ledger\\Providers\\LedgerServiceProvider"
+                "Turahe\\Ledger\\Providers\\LedgerServiceProvider"
             ],
             "aliases": {}
         }
     },
     "autoload": {
         "psr-4": {
-            "Modules\\Ledger\\": "app/",
-            "Modules\\Ledger\\Database\\Factories\\": "database/factories/",
-            "Modules\\Ledger\\Database\\Seeders\\": "database/seeders/"
+            "Turahe\\Ledger\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Modules\\Ledger\\Tests\\": "tests/"
+            "Turahe\\Ledger\\Tests\\": "tests/"
         }
     }
 }

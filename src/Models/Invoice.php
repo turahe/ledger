@@ -1,10 +1,10 @@
 <?php
 
-namespace Modules\Ledger\Models;
+namespace Turahe\Ledger\Models;
 
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Model;
-use Modules\Ledger\Models\Invoice\Item;
+use Turahe\Ledger\Models\Invoice\Item;
 use Sqits\UserStamps\Concerns\HasUserStamps;
 
 /**
@@ -35,7 +35,7 @@ use Sqits\UserStamps\Concerns\HasUserStamps;
  * @property string $minimum_down_payment amount is an decimal, it could be "dollars" or "cents"
  * @property object|null $metadata
  * @property string $record_entry
- * @property string|null $record_type type can be anything in your app, by default we use "deposit" and "withdraw"
+ * @property string|null $record_type type can be anything in your src, by default we use "deposit" and "withdraw"
  * @property int|null $record_left
  * @property int|null $record_right
  * @property int|null $record_ordering
@@ -46,12 +46,12 @@ use Sqits\UserStamps\Concerns\HasUserStamps;
  * @property int|null $deleted_at
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Modules\Auth\Models\User|null $author
- * @property-read \Modules\Auth\Models\User|null $destroyer
- * @property-read \Modules\Auth\Models\User|null $editor
+ * @property-read \Turahe\Auth\Models\User|null $author
+ * @property-read \Turahe\Auth\Models\User|null $destroyer
+ * @property-read \Turahe\Auth\Models\User|null $editor
  * @property-read \Illuminate\Database\Eloquent\Collection<int, Item> $items
  * @property-read int|null $items_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \Modules\Ledger\Models\Voucher> $payments
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Turahe\Ledger\Models\Voucher> $payments
  * @property-read int|null $payments_count
  * @method static \Illuminate\Database\Eloquent\Builder|Invoice newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Invoice newQuery()

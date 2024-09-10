@@ -21,7 +21,7 @@ return new class extends Migration
             $table->integer('issue_date')->nullable();
             $table->integer('due_date')->nullable();
             $table->enum('record_entry', ['IN', 'OUT']);
-            $table->string('record_type')->nullable()->comment('type can be anything in your app, by default we use "deposit" and "withdraw"');
+            $table->string('record_type')->nullable()->comment('type can be anything in your src, by default we use "deposit" and "withdraw"');
             $table->json('metadata')->nullable();
 
             $table->unsignedBigInteger('record_left')->index()->nullable();
@@ -60,7 +60,7 @@ return new class extends Migration
             $table->decimal('quantity', 64)->default(1);
             $table->string('unit')->nullable();
             $table->decimal('value', 64, 4);
-            $table->string('record_type')->nullable()->comment('type can be anything in your app, by default we use "deposit" and "withdraw"');
+            $table->string('record_type')->nullable()->comment('type can be anything in your src, by default we use "deposit" and "withdraw"');
             $table->json('metadata')->nullable();
 
             $table->unsignedBigInteger('record_left')->index()->nullable();

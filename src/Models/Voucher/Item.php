@@ -1,10 +1,10 @@
 <?php
 
-namespace Modules\Ledger\Models\Voucher;
+namespace Turahe\Ledger\Models\Voucher;
 
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Model;
-use Modules\Ledger\Models\Voucher;
+use Turahe\Ledger\Models\Voucher;
 use Sqits\UserStamps\Concerns\HasUserStamps;
 
 /**
@@ -17,7 +17,7 @@ use Sqits\UserStamps\Concerns\HasUserStamps;
  * @property string $quantity
  * @property string|null $unit
  * @property string $value
- * @property string|null $record_type type can be anything in your app, by default we use "deposit" and "withdraw"
+ * @property string|null $record_type type can be anything in your src, by default we use "deposit" and "withdraw"
  * @property string|null $metadata
  * @property int|null $record_left
  * @property int|null $record_right
@@ -29,9 +29,9 @@ use Sqits\UserStamps\Concerns\HasUserStamps;
  * @property int|null $deleted_at
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Modules\Auth\Models\User|null $author
- * @property-read \Modules\Auth\Models\User|null $destroyer
- * @property-read \Modules\Auth\Models\User|null $editor
+ * @property-read \Turahe\Auth\Models\User|null $author
+ * @property-read \Turahe\Auth\Models\User|null $destroyer
+ * @property-read \Turahe\Auth\Models\User|null $editor
  * @property-read Voucher|null $voucher
  * @method static \Illuminate\Database\Eloquent\Builder|Item newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Item newQuery()

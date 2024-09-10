@@ -43,7 +43,7 @@ return new class extends Migration
             $table->decimal('minimum_down_payment', 64, 4)->comment('amount is an decimal, it could be "dollars" or "cents"')->default(0);
             $table->json('metadata')->nullable();
             $table->enum('record_entry', ['IN', 'OUT']);
-            $table->string('record_type')->nullable()->comment('type can be anything in your app, by default we use "deposit" and "withdraw"');
+            $table->string('record_type')->nullable()->comment('type can be anything in your src, by default we use "deposit" and "withdraw"');
 
             $table->unsignedBigInteger('record_left')->index()->nullable();
             $table->unsignedBigInteger('record_right')->index()->nullable();
@@ -102,7 +102,7 @@ return new class extends Migration
             $table->float('price_unit');
             $table->float('price_cogs')->nullable();
             $table->json('metadata')->nullable();
-            $table->string('record_type')->nullable()->comment('type can be anything in your app, by default we use "deposit" and "withdraw"');
+            $table->string('record_type')->nullable()->comment('type can be anything in your src, by default we use "deposit" and "withdraw"');
 
             $table->unsignedBigInteger('record_left')->index()->nullable();
             $table->unsignedBigInteger('record_right')->index()->nullable();

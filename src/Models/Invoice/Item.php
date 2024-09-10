@@ -1,10 +1,10 @@
 <?php
 
-namespace Modules\Ledger\Models\Invoice;
+namespace Turahe\Ledger\Models\Invoice;
 
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Model;
-use Modules\Ledger\Models\Invoice;
+use Turahe\Ledger\Models\Invoice;
 use Sqits\UserStamps\Concerns\HasUserStamps;
 
 /**
@@ -30,7 +30,7 @@ use Sqits\UserStamps\Concerns\HasUserStamps;
  * @property float $price_unit
  * @property float|null $price_cogs
  * @property string|null $metadata
- * @property string|null $record_type type can be anything in your app, by default we use "deposit" and "withdraw"
+ * @property string|null $record_type type can be anything in your src, by default we use "deposit" and "withdraw"
  * @property int|null $record_left
  * @property int|null $record_right
  * @property int|null $record_ordering
@@ -41,9 +41,9 @@ use Sqits\UserStamps\Concerns\HasUserStamps;
  * @property int|null $deleted_at
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Modules\Auth\Models\User|null $author
- * @property-read \Modules\Auth\Models\User|null $destroyer
- * @property-read \Modules\Auth\Models\User|null $editor
+ * @property-read \Turahe\Auth\Models\User|null $author
+ * @property-read \Turahe\Auth\Models\User|null $destroyer
+ * @property-read \Turahe\Auth\Models\User|null $editor
  * @property-read Invoice|null $invoice
  * @method static \Illuminate\Database\Eloquent\Builder|Item newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Item newQuery()
