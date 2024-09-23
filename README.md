@@ -9,7 +9,7 @@
 2. Publish resources (migrations and config files):
 
     ```shell
-    php artisan vendor:publish --provider="Turahe\Ledger\LedgerServiceProvider"
+    php artisan vendor:publish --provider="Turahe\\Ledger\\Providers\\LedgerServiceProvider"
     ```
 
 3. Execute migrations via the following command:
