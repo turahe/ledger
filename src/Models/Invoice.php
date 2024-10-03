@@ -5,6 +5,9 @@ namespace Turahe\Ledger\Models;
 use ALajusticia\Expirable\Traits\Expirable;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\EloquentSortable\Sortable;
+use Spatie\EloquentSortable\SortableTrait;
 use Turahe\Ledger\Models\Invoice\Item;
 use Turahe\UserStamps\Concerns\HasUserStamps;
 
@@ -95,11 +98,14 @@ use Turahe\UserStamps\Concerns\HasUserStamps;
  *
  * @mixin \Eloquent
  */
-class Invoice extends Model
+class Invoice extends Model implements Sortable
 {
     use Expirable;
     use HasUlids;
     use HasUserStamps;
+    use \Kalnoy\Nestedset\NodeTrait;
+    use SoftDeletes;
+    use SortableTrait;
 
     const EXPIRES_AT = 'due_date';
 
@@ -142,6 +148,46 @@ class Invoice extends Model
     ];
 
     /**
+     * @return string
+     */
+    public function getLftName()
+    {
+        return 'record_left';
+    }
+
+    /**
+     * @return string
+     */
+    public function getRgtName()
+    {
+        return 'record_right';
+    }
+
+    /**
+     * @return string
+     */
+    public function getParentIdName()
+    {
+        return 'parent_id';
+    }
+
+    /**
+     * Specify parent id attribute mutator
+     *
+     * @return void
+     *
+     * @throws \Exception
+     */
+    public function setParentAttribute($value)
+    {
+        $this->setParentIdAttribute($value);
+    }
+
+    public $sortable = [
+        'order_column_name' => 'record_ordering',
+        'sort_when_creating' => true,
+    ];
+    /**
      * @return string[]
      */
     protected function casts(): array
@@ -156,35 +202,35 @@ class Invoice extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function items()
-    {
-        return $this->hasMany(Item::class, 'invoice_id');
-
-    }
+//    public function items()
+//    {
+//        return $this->hasMany(Item::class, 'invoice_id');
+//
+//    }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function payments()
-    {
-        return $this->belongsToMany(
-            Voucher::class,
-            'invoice_payments',
-            'invoice_id',
-            'receipt_id'
-        )->withPivot([
-            'currency',
-            'amount',
-            'payment_gateway',
-            'payment_method',
-            'payment_channel',
-            'payment_fee',
-            'payment_status_code',
-            'payment_status_message',
-            'payment_issued_at',
-            'payment_expires_at',
-            'metadata',
-        ]);
-
-    }
+//    public function payments()
+//    {
+//        return $this->belongsToMany(
+//            Voucher::class,
+//            'invoice_payments',
+//            'invoice_id',
+//            'receipt_id'
+//        )->withPivot([
+//            'currency',
+//            'amount',
+//            'payment_gateway',
+//            'payment_method',
+//            'payment_channel',
+//            'payment_fee',
+//            'payment_status_code',
+//            'payment_status_message',
+//            'payment_issued_at',
+//            'payment_expires_at',
+//            'metadata',
+//        ]);
+//
+//    }
 }

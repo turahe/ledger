@@ -6,16 +6,21 @@ use ALajusticia\Expirable\Traits\Expirable;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\EloquentSortable\Sortable;
+use Spatie\EloquentSortable\SortableTrait;
 use Turahe\Ledger\Enums\RecordEntry;
 use Turahe\Ledger\Models\Voucher\Item;
-use Turahe\User\Models\Organization;
 use Turahe\UserStamps\Concerns\HasUserStamps;
 
-class Voucher extends Model
+class Voucher extends Model implements Sortable
 {
     use Expirable;
     use HasUlids;
     use HasUserStamps;
+    use \Kalnoy\Nestedset\NodeTrait;
+    use SoftDeletes;
+    use SortableTrait;
 
     const EXPIRES_AT = 'due_date';
 
@@ -23,6 +28,60 @@ class Voucher extends Model
      * @var string
      */
     public $dateFormat = 'U';
+
+    protected $fillable = [
+        'model_id',
+        'model_type',
+        'code',
+        'note',
+        'total_unit',
+        'total_value',
+        'issue_date',
+        'due_date',
+        'record_entry',
+        'record_type'
+    ];
+
+    /**
+     * @return string
+     */
+    public function getLftName()
+    {
+        return 'record_left';
+    }
+
+    /**
+     * @return string
+     */
+    public function getRgtName()
+    {
+        return 'record_right';
+    }
+
+    /**
+     * @return string
+     */
+    public function getParentIdName()
+    {
+        return 'parent_id';
+    }
+
+    /**
+     * Specify parent id attribute mutator
+     *
+     * @return void
+     *
+     * @throws \Exception
+     */
+    public function setParentAttribute($value)
+    {
+        $this->setParentIdAttribute($value);
+    }
+
+    public $sortable = [
+        'order_column_name' => 'record_ordering',
+        'sort_when_creating' => true,
+    ];
 
     /**
      * @return string[]
@@ -39,12 +98,12 @@ class Voucher extends Model
 
     public function shipping_provider(): BelongsTo
     {
-        return $this->belongsTo(Organization::class, 'shipping_provider_id');
+        return $this->belongsTo(config('ledger.shipping_provider'), 'shipping_provider_id');
     }
 
     public function insurance_provider(): BelongsTo
     {
-        return $this->belongsTo(Organization::class, 'insurance_provider_id');
+        return $this->belongsTo(config('ledger.insurance_provider'), 'insurance_provider_id');
     }
 
     /**

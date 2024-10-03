@@ -16,7 +16,7 @@ return new class extends Migration
             $table->ulidMorphs('model');
             $table->string('code');
             $table->text('note')->nullable();
-            $table->string('total_unit')->nullable();
+            $table->decimal('total_unit', 64, 4)->nullable();
             $table->decimal('total_value', 64, 4)->comment('amount is an decimal, it could be "dollars" or "cents"');
             $table->integer('issue_date')->nullable();
             $table->integer('due_date')->nullable();
