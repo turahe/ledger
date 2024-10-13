@@ -6,7 +6,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Turahe\Ledger\Tests\Factories\OrganizationFactory;
 
-class Organization extends Model {
+class Organization extends Model
+{
     use HasFactory;
 
     protected $table = 'organizations';
@@ -18,9 +19,6 @@ class Organization extends Model {
      */
     protected static function newFactory()
     {
-        return new OrganizationFactory();
+        return new OrganizationFactory;
     }
-
-
-
 }

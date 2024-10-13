@@ -6,6 +6,8 @@ use ALajusticia\Expirable\Traits\Expirable;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\EloquentSortable\Sortable;
 use Spatie\EloquentSortable\SortableTrait;
@@ -39,7 +41,7 @@ class Voucher extends Model implements Sortable
         'issue_date',
         'due_date',
         'record_entry',
-        'record_type'
+        'record_type',
     ];
 
     /**
@@ -106,18 +108,12 @@ class Voucher extends Model implements Sortable
         return $this->belongsTo(config('ledger.insurance_provider'), 'insurance_provider_id');
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function items()
+    public function items(): HasMany
     {
         return $this->hasMany(Item::class, 'voucher_id');
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
-     */
-    public function payments()
+    public function payments(): BelongsToMany
     {
         return $this->belongsToMany(
             Invoice::class,

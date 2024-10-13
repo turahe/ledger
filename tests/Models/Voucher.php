@@ -4,7 +4,6 @@ namespace Turahe\Ledger\Tests\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Turahe\Ledger\Tests\Factories\UserFactory;
 use Turahe\Ledger\Tests\Factories\VoucherFactory;
 
 class Voucher extends \Turahe\Ledger\Models\Voucher
@@ -18,7 +17,6 @@ class Voucher extends \Turahe\Ledger\Models\Voucher
      */
     protected static function newFactory()
     {
-        return new VoucherFactory();
+        return new VoucherFactory;
     }
-
 }

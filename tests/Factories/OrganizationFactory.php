@@ -7,8 +7,8 @@ use Turahe\Ledger\Tests\Models\Organization;
 
 class OrganizationFactory extends Factory
 {
-
     protected $model = Organization::class;
+
     public function definition()
     {
         return [

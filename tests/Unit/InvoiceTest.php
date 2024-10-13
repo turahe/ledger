@@ -4,24 +4,22 @@ namespace Turahe\Ledger\Tests\Unit;
 
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
 use PHPUnit\Framework\Attributes\Test;
 use Turahe\Ledger\Enums\RecordEntry;
-use Turahe\Ledger\Tests\Models\Invoice;
+use Turahe\Ledger\Models\Invoice;
 use Turahe\Ledger\Tests\Models\User;
 use Turahe\Ledger\Tests\Models\Voucher;
 use Turahe\Ledger\Tests\TestCase;
 
-class InvoiceTest extends TestCase {
-
+class InvoiceTest extends TestCase
+{
     #[Test]
     public function it_can_create_the_invoice()
     {
         $user = User::factory()->create();
         $data = [
-            'id' => Str::ulid()->toString(),
-            'model_id' => $user->id,
-            'model_type' => User::class,
+            'model_id' => $user->getKey(),
+            'model_type' => $user->getMorphClass(),
             'code' => '1234567890',
             'shipping_provider_id' => 1,
             'shipping_fee' => 10,
@@ -41,24 +39,22 @@ class InvoiceTest extends TestCase {
             'total_change' => 100,
             'minimum_down_payment' => 100,
             'metadata' => null,
-            'record_entry' => 'IN',
-            'record_type' => 'CREDIT',
-            'issue_date' => now(),
-            'due_date' => now()->addDays(30),
+            'record_entry' => RecordEntry::In,
+            'record_type' => RecordEntry::Credit,
+            //            'issue_date' => now(),
+            //            'due_date' => now()->addDays(30),
             'parent_id' => null,
         ];
 
-//        $voucher = DB::table('invoices')->insert($data);
+        //        $voucher = DB::table('invoices')->insert($data);
 
-        $voucher =  Voucher::create($data);
-
-        dump($voucher);
+        $voucher = Invoice::create($data);
 
         $this->assertDatabaseHas('invoices', $data);
 
-//        $this->assertEquals($data['code'], $voucher->code);
-//        $this->assertEquals($data['note'], $voucher->note);
-//        $this->assertEquals($data['total_unit'], $voucher->total_unit);
+        $this->assertEquals($data['code'], $voucher->code);
+        //                $this->assertEquals($data['note'], $voucher->note);
+        //                $this->assertEquals($data['total_unit'], $voucher->total_unit);
     }
 
     #[Test]
@@ -126,7 +122,6 @@ class InvoiceTest extends TestCase {
         $this->assertInstanceOf(User::class, $found);
         $this->assertEquals($voucher->username, $found->username);
     }
-
 
     #[Test]
     public function it_can_list_all_invoices()

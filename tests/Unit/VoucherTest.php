@@ -2,9 +2,7 @@
 
 namespace Turahe\Ledger\Tests\Unit;
 
-use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Storage;
 use PHPUnit\Framework\Attributes\Test;
 use Turahe\Ledger\Enums\RecordEntry;
 use Turahe\Ledger\Tests\Models\User;
@@ -18,20 +16,19 @@ class VoucherTest extends TestCase
     {
         $user = User::factory()->create();
         $data = [
-            'model_id' => $user->id,
-            'model_type' => User::class,
+            'model_id' => $user->getKey(),
+            'model_type' => $user->getMorphClass(),
             'code' => '1212323212',
             'note' => $this->faker->sentence,
             'total_unit' => $this->faker->randomDigitNotNull,
             'total_value' => $this->faker->randomDigitNotNull,
-//            'issue_date' => $this->faker->date(),
-//            'due_date' => now(),
+            //            'issue_date' => $this->faker->date(),
+            //            'due_date' => now(),
             'record_entry' => RecordEntry::In,
             'record_type' => RecordEntry::Credit,
         ];
 
         $voucher = Voucher::create($data);
-        dd($voucher);
 
         $this->assertDatabaseHas('vouchers', $data);
 
@@ -45,18 +42,18 @@ class VoucherTest extends TestCase
     {
         $user = User::factory()->create();
         $voucher = Voucher::factory()->create([
-            'model_id' => $user->id,
-            'model_type' => User::class,
+            'model_id' => $user->getKey(),
+            'model_type' => $user->getMorphClass(),
         ]);
 
         $deleted = $voucher->delete();
 
         $this->assertTrue($deleted);
-        $this->assertSoftDeleted('users', [
+        $this->assertSoftDeleted('vouchers', [
             'id' => $voucher->id,
-            'username' => $voucher->username,
-            'email' => $voucher->email,
-            'phone' => $voucher->phone,
+            'code' => $voucher->code,
+            'note' => $voucher->note,
+            'total_unit' => $voucher->total_unit,
         ]);
     }
 
@@ -70,7 +67,7 @@ class VoucherTest extends TestCase
         ]);
         $this->expectException(\Exception::class);
 
-        $voucher->update(['username' => null]);
+        $voucher->update(['code' => null]);
     }
 
     #[Test]
@@ -82,13 +79,13 @@ class VoucherTest extends TestCase
             'model_type' => User::class,
         ]);
 
-        $update = ['username' => 'username'];
+        $update = ['code' => 'code'];
         $updated = $voucher->update($update);
 
-        $voucher = $voucher->getUsername($update['username']);
+        $voucher = $voucher->where('code', ($update['code']))->first();
 
         $this->assertTrue($updated);
-        $this->assertEquals($update['username'], $voucher->username);
+        $this->assertEquals($update['code'], $voucher->code);
     }
 
     #[Test]
@@ -100,12 +97,11 @@ class VoucherTest extends TestCase
             'model_type' => User::class,
         ]);
 
-        $found = User::find($voucher->id);
+        $found = Voucher::find($voucher->id);
 
-        $this->assertInstanceOf(User::class, $found);
-        $this->assertEquals($voucher->username, $found->username);
+        $this->assertInstanceOf(Voucher::class, $found);
+        $this->assertEquals($voucher->code, $found->code);
     }
-
 
     #[Test]
     public function it_can_list_all_vouchers()

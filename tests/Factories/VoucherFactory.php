@@ -7,7 +7,6 @@ use Turahe\Ledger\Tests\Models\Voucher;
 
 class VoucherFactory extends Factory
 {
-
     protected $model = Voucher::class;
 
     public function definition()

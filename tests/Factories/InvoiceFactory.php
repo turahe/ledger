@@ -7,7 +7,6 @@ use Turahe\Ledger\Tests\Models\Invoice;
 
 class InvoiceFactory extends Factory
 {
-
     protected $model = Invoice::class;
 
     public function definition()

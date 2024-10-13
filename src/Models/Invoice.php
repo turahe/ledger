@@ -5,6 +5,8 @@ namespace Turahe\Ledger\Models;
 use ALajusticia\Expirable\Traits\Expirable;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\EloquentSortable\Sortable;
 use Spatie\EloquentSortable\SortableTrait;
@@ -187,6 +189,7 @@ class Invoice extends Model implements Sortable
         'order_column_name' => 'record_ordering',
         'sort_when_creating' => true,
     ];
+
     /**
      * @return string[]
      */
@@ -199,38 +202,32 @@ class Invoice extends Model implements Sortable
         ];
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-//    public function items()
-//    {
-//        return $this->hasMany(Item::class, 'invoice_id');
-//
-//    }
+    public function items(): HasMany
+    {
+        return $this->hasMany(Item::class, 'invoice_id');
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
-     */
-//    public function payments()
-//    {
-//        return $this->belongsToMany(
-//            Voucher::class,
-//            'invoice_payments',
-//            'invoice_id',
-//            'receipt_id'
-//        )->withPivot([
-//            'currency',
-//            'amount',
-//            'payment_gateway',
-//            'payment_method',
-//            'payment_channel',
-//            'payment_fee',
-//            'payment_status_code',
-//            'payment_status_message',
-//            'payment_issued_at',
-//            'payment_expires_at',
-//            'metadata',
-//        ]);
-//
-//    }
+    }
+
+    public function payments(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            Voucher::class,
+            'invoice_payments',
+            'invoice_id',
+            'receipt_id'
+        )->withPivot([
+            'currency',
+            'amount',
+            'payment_gateway',
+            'payment_method',
+            'payment_channel',
+            'payment_fee',
+            'payment_status_code',
+            'payment_status_message',
+            'payment_issued_at',
+            'payment_expires_at',
+            'metadata',
+        ]);
+
+    }
 }

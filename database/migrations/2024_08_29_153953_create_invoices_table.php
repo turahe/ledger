@@ -15,9 +15,9 @@ return new class extends Migration
             $table->ulid('id')->primary();
             $table->ulidMorphs('model');
             $table->string('code')->unique()->index();
-            $table->foreignIdFor(config('ledger.shipping_provider'), 'shipping_provider_id')->index()->nullable();
+            $table->foreignIdFor(config('ledger.shipping_provider', \App\Models\Organization::class), 'shipping_provider_id')->index()->nullable();
             $table->float('shipping_fee')->default(0);
-            $table->foreignIdFor(config('ledger.insurance_provider'), 'insurance_provider_id')->index()->nullable();
+            $table->foreignIdFor(config('ledger.insurance_provider', \App\Models\Organization::class), 'insurance_provider_id')->index()->nullable();
             $table->float('insurance_fee')->default(0);
             $table->float('transaction_fee')->default(0);
             $table->string('discount_voucher')->nullable();

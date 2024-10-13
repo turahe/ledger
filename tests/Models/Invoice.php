@@ -4,7 +4,6 @@ namespace Turahe\Ledger\Tests\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Turahe\Ledger\Tests\Factories\InvoiceFactory;
-use Turahe\Ledger\Tests\Factories\OrganizationFactory;
 
 class Invoice extends \Turahe\Ledger\Models\Invoice
 {
@@ -17,7 +16,6 @@ class Invoice extends \Turahe\Ledger\Models\Invoice
      */
     protected static function newFactory()
     {
-        return new InvoiceFactory();
+        return new InvoiceFactory;
     }
-
 }
