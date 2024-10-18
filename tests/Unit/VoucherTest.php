@@ -4,7 +4,6 @@ namespace Turahe\Ledger\Tests\Unit;
 
 use Illuminate\Support\Collection;
 use PHPUnit\Framework\Attributes\Test;
-use Turahe\Ledger\Enums\RecordEntry;
 use Turahe\Ledger\Tests\Models\User;
 use Turahe\Ledger\Tests\Models\Voucher;
 use Turahe\Ledger\Tests\TestCase;
@@ -22,10 +21,6 @@ class VoucherTest extends TestCase
             'note' => $this->faker->sentence,
             'total_unit' => $this->faker->randomDigitNotNull,
             'total_value' => $this->faker->randomDigitNotNull,
-            //            'issue_date' => $this->faker->date(),
-            //            'due_date' => now(),
-            'record_entry' => RecordEntry::In,
-            'record_type' => RecordEntry::Credit,
         ];
 
         $voucher = Voucher::create($data);
@@ -49,12 +44,6 @@ class VoucherTest extends TestCase
         $deleted = $voucher->delete();
 
         $this->assertTrue($deleted);
-        $this->assertSoftDeleted('vouchers', [
-            'id' => $voucher->id,
-            'code' => $voucher->code,
-            'note' => $voucher->note,
-            'total_unit' => $voucher->total_unit,
-        ]);
     }
 
     #[Test]

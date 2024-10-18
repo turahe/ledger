@@ -60,5 +60,10 @@ class TestCase extends \Orchestra\Testbench\TestCase
             $table->string('name');
             $table->timestamps();
         });
+
+        $app['db.schema']->create('products', function ($table) {
+            $table->increments('id');
+            $table->timestamps();
+        });
     }
 }

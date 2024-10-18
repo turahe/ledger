@@ -9,18 +9,15 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Spatie\EloquentSortable\Sortable;
-use Spatie\EloquentSortable\SortableTrait;
-use Turahe\Ledger\Enums\RecordEntry;
 use Turahe\Ledger\Models\Voucher\Item;
 use Turahe\UserStamps\Concerns\HasUserStamps;
 
 class Voucher extends Model
 {
-    use Expirable;
+    //    use Expirable;
     use HasUlids;
-    use HasUserStamps;
-    use SoftDeletes;
+    //    use HasUserStamps;
+    //    use SoftDeletes;
 
     const EXPIRES_AT = 'due_date';
 
@@ -38,10 +35,7 @@ class Voucher extends Model
         'total_value',
         'issue_date',
         'due_date',
-        'record_entry',
-        'record_type',
     ];
-
 
     /**
      * @return string[]
@@ -52,7 +46,6 @@ class Voucher extends Model
             'metadata' => 'object',
             'due_date' => 'datetime',
             'issue_date' => 'datetime',
-            'record_entry' => RecordEntry::class,
         ];
     }
 

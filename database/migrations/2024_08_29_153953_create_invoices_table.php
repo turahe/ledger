@@ -87,7 +87,6 @@ return new class extends Migration
 
             $table->float('price_unit');
 
-
             $table->foreignUlid('created_by')
                 ->index()
                 ->nullable()

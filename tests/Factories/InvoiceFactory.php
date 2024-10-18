@@ -11,6 +11,11 @@ class InvoiceFactory extends Factory
 
     public function definition()
     {
-        // TODO: Implement definition() method.
+        return [
+            'code' => $this->faker->imei,
+            'currency' => $this->faker->currencyCode(),
+            'issue_date' => now(),
+            'due_date' => now()->addDay(),
+        ];
     }
 }

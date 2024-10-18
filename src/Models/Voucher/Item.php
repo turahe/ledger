@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Turahe\Ledger\Models\Voucher;
-use Turahe\UserStamps\Concerns\HasUserStamps;
 
 /**
  * @property string $id
@@ -61,7 +60,6 @@ use Turahe\UserStamps\Concerns\HasUserStamps;
 class Item extends Model
 {
     use HasUlids;
-    use HasUserStamps;
 
     public $dateFormat = 'U';
 

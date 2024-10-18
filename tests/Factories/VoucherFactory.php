@@ -16,8 +16,6 @@ class VoucherFactory extends Factory
             'note' => $this->faker->sentence,
             'total_unit' => $this->faker->randomFloat(2, 10),
             'total_value' => $this->faker->randomFloat(2, 10),
-            'record_entry' => $this->faker->randomElement(['IN', 'OUT']),
-            'record_type' => $this->faker->randomElement(['CREDIT', 'DEBIT']),
         ];
     }
 }

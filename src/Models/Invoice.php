@@ -2,119 +2,20 @@
 
 namespace Turahe\Ledger\Models;
 
-use ALajusticia\Expirable\Traits\Expirable;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Laravel\Scout\Searchable;
-use Spatie\EloquentSortable\Sortable;
-use Spatie\EloquentSortable\SortableTrait;
 use Turahe\Ledger\Models\Invoice\Item;
-use Turahe\UserStamps\Concerns\HasUserStamps;
 
-/**
- * @property string $id
- * @property string $model_type
- * @property string $model_id
- * @property string $code
- * @property string|null $shipping_provider_id
- * @property float $shipping_fee
- * @property string|null $insurance_provider_id
- * @property float $insurance_fee
- * @property float $transaction_fee
- * @property string|null $discount_voucher
- * @property float $discount_amount
- * @property string $currency
- * @property \Illuminate\Support\Carbon|null $issue_date
- * @property \Illuminate\Support\Carbon|null $due_date
- * @property string $tax_amount amount is an decimal, it could be "dollars" or "cents"
- * @property string $service_amount amount is an decimal, it could be "dollars" or "cents"
- * @property string $mdr_fee amount is an decimal, it could be "dollars" or "cents"
- * @property string $total_amount amount is an decimal, it could be "dollars" or "cents"
- * @property string $total_invoice amount is an decimal, it could be "dollars" or "cents"
- * @property string $total_payment amount is an decimal, it could be "dollars" or "cents"
- * @property string $total_unpaid amount is an decimal, it could be "dollars" or "cents"
- * @property string $total_change amount is an decimal, it could be "dollars" or "cents"
- * @property string $minimum_down_payment amount is an decimal, it could be "dollars" or "cents"
- * @property object|null $metadata
- * @property string $record_entry
- * @property string|null $record_type type can be anything in your src, by default we use "deposit" and "withdraw"
- * @property int|null $record_left
- * @property int|null $record_right
- * @property int|null $record_ordering
- * @property string|null $parent_id
- * @property string|null $created_by
- * @property string|null $updated_by
- * @property string|null $deleted_by
- * @property int|null $deleted_at
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Turahe\Auth\Models\User|null $author
- * @property-read \Turahe\Auth\Models\User|null $destroyer
- * @property-read \Turahe\Auth\Models\User|null $editor
- * @property-read \Illuminate\Database\Eloquent\Collection<int, Item> $items
- * @property-read int|null $items_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \Turahe\Ledger\Models\Voucher> $payments
- * @property-read int|null $payments_count
- *
- * @method static \Illuminate\Database\Eloquent\Builder|Invoice newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Invoice newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Invoice query()
- * @method static \Illuminate\Database\Eloquent\Builder|Invoice whereCode($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Invoice whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Invoice whereCreatedBy($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Invoice whereCurrency($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Invoice whereDeletedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Invoice whereDeletedBy($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Invoice whereDiscountAmount($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Invoice whereDiscountVoucher($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Invoice whereDueDate($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Invoice whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Invoice whereInsuranceFee($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Invoice whereInsuranceProviderId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Invoice whereIssueDate($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Invoice whereMdrFee($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Invoice whereMetadata($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Invoice whereMinimumDownPayment($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Invoice whereModelId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Invoice whereModelType($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Invoice whereParentId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Invoice whereRecordEntry($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Invoice whereRecordLeft($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Invoice whereRecordOrdering($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Invoice whereRecordRight($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Invoice whereRecordType($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Invoice whereServiceAmount($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Invoice whereShippingFee($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Invoice whereShippingProviderId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Invoice whereTaxAmount($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Invoice whereTotalAmount($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Invoice whereTotalChange($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Invoice whereTotalInvoice($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Invoice whereTotalPayment($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Invoice whereTotalUnpaid($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Invoice whereTransactionFee($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Invoice whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Invoice whereUpdatedBy($value)
- *
- * @mixin \Eloquent
- */
 class Invoice extends Model
 {
     use HasUlids;
-    use HasUserStamps;
 
     /**
      * @var string
      */
     protected $table = 'invoices';
-
-    /**
-     *
-     */
-    const EXPIRES_AT = 'due_date';
 
     /**
      * @var string
@@ -162,7 +63,6 @@ class Invoice extends Model
             'insurance_fee' => 'float',
             'transaction_fee' => 'float',
             'service_fee' => 'float',
-            'tax_amount' => 'float',
             'discount_voucher' => 'float',
             'discount_amount' => 'float',
             'tax_amount' => 'float',
@@ -175,9 +75,6 @@ class Invoice extends Model
         ];
     }
 
-    /**
-     * @return HasMany
-     */
     public function items(): HasMany
     {
         return $this->hasMany(Item::class, 'invoice_id', 'id');
@@ -190,9 +87,6 @@ class Invoice extends Model
 
     }
 
-    /**
-     * @return BelongsToMany
-     */
     public function payments(): BelongsToMany
     {
         return $this->belongsToMany(

@@ -2,13 +2,13 @@
 
 namespace Turahe\Ledger\Tests\Unit;
 
+use Illuminate\Database\QueryException;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\DB;
 use PHPUnit\Framework\Attributes\Test;
-use Turahe\Ledger\Enums\RecordEntry;
-use Turahe\Ledger\Models\Invoice;
+use Turahe\Ledger\Models\Invoice\Item;
+use Turahe\Ledger\Tests\Models\Invoice;
+use Turahe\Ledger\Tests\Models\Product;
 use Turahe\Ledger\Tests\Models\User;
-use Turahe\Ledger\Tests\Models\Voucher;
 use Turahe\Ledger\Tests\TestCase;
 
 class InvoiceTest extends TestCase
@@ -36,103 +36,141 @@ class InvoiceTest extends TestCase
             'total_invoice' => 120,
             'total_unpaid' => 100,
             'total_payment' => 20,
-            'total_change' => 100,
             'minimum_down_payment' => 100,
-            'metadata' => null,
-            'record_entry' => RecordEntry::In,
-            'record_type' => RecordEntry::Credit,
-            //            'issue_date' => now(),
-            //            'due_date' => now()->addDays(30),
-            'parent_id' => null,
         ];
 
-        //        $voucher = DB::table('invoices')->insert($data);
-
-        $voucher = Invoice::create($data);
+        $invoice = Invoice::create($data);
 
         $this->assertDatabaseHas('invoices', $data);
-
-        $this->assertEquals($data['code'], $voucher->code);
-        //                $this->assertEquals($data['note'], $voucher->note);
-        //                $this->assertEquals($data['total_unit'], $voucher->total_unit);
+        $this->assertEquals($data['code'], $invoice->code);
+        $this->assertEquals($data['shipping_provider_id'], $invoice->shipping_provider_id);
+        $this->assertEquals($data['shipping_fee'], $invoice->shipping_fee);
+        $this->assertEquals($data['insurance_provider_id'], $invoice->insurance_provider_id);
+        $this->assertEquals($data['insurance_fee'], $invoice->insurance_fee);
+        $this->assertEquals($data['transaction_fee'], $invoice->transaction_fee);
+        $this->assertEquals($data['currency'], $invoice->currency);
+        $this->assertEquals($data['discount_voucher'], $invoice->discount_voucher);
+        $this->assertEquals($data['discount_amount'], $invoice->discount_amount);
+        $this->assertEquals($data['tax_amount'], $invoice->tax_amount);
+        $this->assertEquals($data['service_amount'], $invoice->service_amount);
+        $this->assertEquals($data['mdr_fee'], $invoice->mdr_fee);
+        $this->assertEquals($data['total_amount'], $invoice->total_amount);
+        $this->assertEquals($data['total_invoice'], $invoice->total_invoice);
+        $this->assertEquals($data['total_unpaid'], $invoice->total_unpaid);
+        $this->assertEquals($data['minimum_down_payment'], $invoice->minimum_down_payment);
     }
 
     #[Test]
     public function it_can_delete_a_invoice()
     {
         $user = User::factory()->create();
-        $voucher = Voucher::factory()->create([
-            'model_id' => $user->id,
-            'model_type' => User::class,
+        $invoice = Invoice::factory()->create([
+            'model_id' => $user->getKey(),
+            'model_type' => $user->getMorphClass(),
         ]);
 
-        $deleted = $voucher->delete();
+        $deleted = $invoice->delete();
 
         $this->assertTrue($deleted);
-        $this->assertSoftDeleted('users', [
-            'id' => $voucher->id,
-            'username' => $voucher->username,
-            'email' => $voucher->email,
-            'phone' => $voucher->phone,
-        ]);
     }
 
     #[Test]
     public function it_errors_when_updating_the_invoice()
     {
         $user = User::factory()->create();
-        $voucher = Voucher::factory()->create([
-            'model_id' => $user->id,
-            'model_type' => User::class,
+        $invoice = Invoice::factory()->create([
+            'model_id' => $user->getKey(),
+            'model_type' => $user->getMorphClass(),
         ]);
-        $this->expectException(\Exception::class);
+        $this->expectException(QueryException::class);
 
-        $voucher->update(['username' => null]);
+        $invoice->update(['code' => null]);
     }
 
     #[Test]
     public function it_can_update_the_invoice()
     {
         $user = User::factory()->create();
-        $voucher = Voucher::factory()->create([
-            'model_id' => $user->id,
-            'model_type' => User::class,
+        $invoice = Invoice::factory()->create([
+            'model_id' => $user->getKey(),
+            'model_type' => $user->getMorphClass(),
         ]);
 
-        $update = ['username' => 'username'];
-        $updated = $voucher->update($update);
+        $update = ['code' => 'code'];
+        $updated = $invoice->update($update);
 
-        $voucher = $voucher->getUsername($update['username']);
+        $invoice = $invoice->where('code', $update['code'])->first();
 
         $this->assertTrue($updated);
-        $this->assertEquals($update['username'], $voucher->username);
+        $this->assertEquals($update['code'], $invoice->code);
     }
 
     #[Test]
     public function it_can_find_the_invoice()
     {
         $user = User::factory()->create();
-        $voucher = Voucher::factory()->create([
-            'model_id' => $user->id,
-            'model_type' => User::class,
+        $invoice = Invoice::factory()->create([
+            'model_id' => $user->getKey(),
+            'model_type' => $user->getMorphClass(),
         ]);
 
-        $found = User::find($voucher->id);
+        $found = Invoice::find($invoice->id);
 
-        $this->assertInstanceOf(User::class, $found);
-        $this->assertEquals($voucher->username, $found->username);
+        $this->assertInstanceOf(Invoice::class, $found);
+        $this->assertEquals($invoice->code, $found->code);
+    }
+
+    #[Test]
+    public function it_can_find_the_invoice_has_items()
+    {
+        $user = User::factory()->create();
+        $invoice = Invoice::factory()->create([
+            'model_id' => $user->getKey(),
+            'model_type' => $user->getMorphClass(),
+        ]);
+
+        $product1 = Product::factory()->create();
+        $product2 = Product::factory()->create();
+
+        $items = [
+            [
+                'model_id' => $product1->getKey(),
+                'model_type' => $product1->getMorphClass(),
+                'quantity' => 1,
+                'price_unit' => 100,
+                'currency' => 'USD',
+            ],
+            [
+                'model_id' => $product2->getKey(),
+                'model_type' => $product2->getMorphClass(),
+                'quantity' => 2,
+                'price_unit' => 20,
+                'currency' => 'USD',
+            ],
+        ];
+
+        foreach ($items as $item) {
+            $invoice->items()->create($item);
+        }
+
+        $found = Invoice::find($invoice->id);
+
+        $this->assertInstanceOf(Invoice::class, $found);
+        $this->assertInstanceOf(Collection::class, $found->items);
+        $this->assertInstanceOf(Item::class, $found->items->first());
+        $this->assertEquals($invoice->code, $found->code);
     }
 
     #[Test]
     public function it_can_list_all_invoices()
     {
         $user = User::factory()->create();
-        $vouchers = Voucher::factory(3)->create([
-            'model_id' => $user->id,
-            'model_type' => User::class,
+        $invoices = Invoice::factory(3)->create([
+            'model_id' => $user->getKey(),
+            'model_type' => $user->getMorphClass(),
         ]);
 
-        $this->assertInstanceOf(Collection::class, $vouchers);
-        $this->assertCount(3, $vouchers->all());
+        $this->assertInstanceOf(Collection::class, $invoices);
+        $this->assertCount(3, $invoices->all());
     }
 }
