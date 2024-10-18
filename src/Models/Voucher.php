@@ -2,22 +2,16 @@
 
 namespace Turahe\Ledger\Models;
 
-use ALajusticia\Expirable\Traits\Expirable;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Turahe\Ledger\Models\Voucher\Item;
-use Turahe\UserStamps\Concerns\HasUserStamps;
 
 class Voucher extends Model
 {
-    //    use Expirable;
     use HasUlids;
-    //    use HasUserStamps;
-    //    use SoftDeletes;
 
     const EXPIRES_AT = 'due_date';
 
