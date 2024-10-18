@@ -15,14 +15,12 @@ use Turahe\Ledger\Enums\RecordEntry;
 use Turahe\Ledger\Models\Voucher\Item;
 use Turahe\UserStamps\Concerns\HasUserStamps;
 
-class Voucher extends Model implements Sortable
+class Voucher extends Model
 {
     use Expirable;
     use HasUlids;
     use HasUserStamps;
-    use \Kalnoy\Nestedset\NodeTrait;
     use SoftDeletes;
-    use SortableTrait;
 
     const EXPIRES_AT = 'due_date';
 
@@ -44,46 +42,6 @@ class Voucher extends Model implements Sortable
         'record_type',
     ];
 
-    /**
-     * @return string
-     */
-    public function getLftName()
-    {
-        return 'record_left';
-    }
-
-    /**
-     * @return string
-     */
-    public function getRgtName()
-    {
-        return 'record_right';
-    }
-
-    /**
-     * @return string
-     */
-    public function getParentIdName()
-    {
-        return 'parent_id';
-    }
-
-    /**
-     * Specify parent id attribute mutator
-     *
-     * @return void
-     *
-     * @throws \Exception
-     */
-    public function setParentAttribute($value)
-    {
-        $this->setParentIdAttribute($value);
-    }
-
-    public $sortable = [
-        'order_column_name' => 'record_ordering',
-        'sort_when_creating' => true,
-    ];
 
     /**
      * @return string[]

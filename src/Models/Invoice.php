@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Laravel\Scout\Searchable;
 use Spatie\EloquentSortable\Sortable;
 use Spatie\EloquentSortable\SortableTrait;
 use Turahe\Ledger\Models\Invoice\Item;
@@ -100,15 +101,19 @@ use Turahe\UserStamps\Concerns\HasUserStamps;
  *
  * @mixin \Eloquent
  */
-class Invoice extends Model implements Sortable
+class Invoice extends Model
 {
-    use Expirable;
     use HasUlids;
     use HasUserStamps;
-    use \Kalnoy\Nestedset\NodeTrait;
-    use SoftDeletes;
-    use SortableTrait;
 
+    /**
+     * @var string
+     */
+    protected $table = 'invoices';
+
+    /**
+     *
+     */
     const EXPIRES_AT = 'due_date';
 
     /**
@@ -140,54 +145,8 @@ class Invoice extends Model implements Sortable
         'total_payment',
         'total_change',
         'minimum_down_payment',
-        'metadata',
-        'record_entry',
-        'record_type',
-        'record_status',
         'issue_date',
         'due_date',
-        'parent_id',
-    ];
-
-    /**
-     * @return string
-     */
-    public function getLftName()
-    {
-        return 'record_left';
-    }
-
-    /**
-     * @return string
-     */
-    public function getRgtName()
-    {
-        return 'record_right';
-    }
-
-    /**
-     * @return string
-     */
-    public function getParentIdName()
-    {
-        return 'parent_id';
-    }
-
-    /**
-     * Specify parent id attribute mutator
-     *
-     * @return void
-     *
-     * @throws \Exception
-     */
-    public function setParentAttribute($value)
-    {
-        $this->setParentIdAttribute($value);
-    }
-
-    public $sortable = [
-        'order_column_name' => 'record_ordering',
-        'sort_when_creating' => true,
     ];
 
     /**
@@ -199,15 +158,41 @@ class Invoice extends Model implements Sortable
             'metadata' => 'object',
             'due_date' => 'datetime',
             'issue_date' => 'datetime',
+            'shipping_fee' => 'float',
+            'insurance_fee' => 'float',
+            'transaction_fee' => 'float',
+            'service_fee' => 'float',
+            'tax_amount' => 'float',
+            'discount_voucher' => 'float',
+            'discount_amount' => 'float',
+            'tax_amount' => 'float',
+            'service_amount' => 'float',
+            'mdr_fee' => 'float',
+            'total_invoice' => 'float',
+            'total_amount' => 'float',
+            'total_payment' => 'float',
+            'minimum_down_payment' => 'float',
         ];
     }
 
+    /**
+     * @return HasMany
+     */
     public function items(): HasMany
     {
-        return $this->hasMany(Item::class, 'invoice_id');
+        return $this->hasMany(Item::class, 'invoice_id', 'id');
 
     }
 
+    public function customer()
+    {
+        return $this->author();
+
+    }
+
+    /**
+     * @return BelongsToMany
+     */
     public function payments(): BelongsToMany
     {
         return $this->belongsToMany(

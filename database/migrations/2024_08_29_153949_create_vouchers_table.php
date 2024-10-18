@@ -21,13 +21,6 @@ return new class extends Migration
             $table->integer('issue_date')->nullable();
             $table->integer('due_date')->nullable();
             $table->enum('record_entry', ['IN', 'OUT']);
-            $table->string('record_type')->nullable()->comment('type can be anything in your src, by default we use "deposit" and "withdraw"');
-            $table->json('metadata')->nullable();
-
-            $table->unsignedBigInteger('record_left')->index()->nullable();
-            $table->unsignedBigInteger('record_right')->index()->nullable();
-            $table->unsignedBigInteger('record_ordering')->index()->nullable();
-            $table->foreignUlid('parent_id')->index()->nullable();
 
             $table->foreignUlid('created_by')
                 ->index()
@@ -39,13 +32,7 @@ return new class extends Migration
                 ->nullable()
                 ->constrained('users')
                 ->cascadeOnDelete();
-            $table->foreignUlid('deleted_by')
-                ->index()
-                ->nullable()
-                ->constrained('users')
-                ->cascadeOnDelete();
 
-            $table->integer('deleted_at')->index()->nullable();
             $table->integer('created_at')->index()->nullable();
             $table->integer('updated_at')->index()->nullable();
 
@@ -60,13 +47,6 @@ return new class extends Migration
             $table->decimal('quantity', 64)->default(1);
             $table->string('unit')->nullable();
             $table->decimal('value', 64, 4);
-            $table->string('record_type')->nullable()->comment('type can be anything in your src, by default we use "deposit" and "withdraw"');
-            $table->json('metadata')->nullable();
-
-            $table->unsignedBigInteger('record_left')->index()->nullable();
-            $table->unsignedBigInteger('record_right')->index()->nullable();
-            $table->unsignedBigInteger('record_ordering')->index()->nullable();
-            $table->foreignUlid('parent_id')->index()->nullable();
 
             $table->foreignUlid('created_by')
                 ->index()
@@ -84,7 +64,6 @@ return new class extends Migration
                 ->constrained('users')
                 ->cascadeOnDelete();
 
-            $table->integer('deleted_at')->index()->nullable();
             $table->integer('created_at')->index()->nullable();
             $table->integer('updated_at')->index()->nullable();
 

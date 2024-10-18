@@ -4,6 +4,11 @@ namespace Turahe\Ledger\Models\Invoice;
 
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Laravel\Scout\Searchable;
+use Spatie\EloquentSortable\Sortable;
+use Spatie\EloquentSortable\SortableTrait;
 use Turahe\Ledger\Models\Invoice;
 use Turahe\UserStamps\Concerns\HasUserStamps;
 
@@ -90,9 +95,28 @@ class Item extends Model
 
     protected $table = 'invoice_items';
 
-    public function invoice()
+
+    protected $fillable = [
+        'model_id',
+        'model_type',
+        'quantity',
+        'shipping_provider_id',
+        'shipping_fee',
+        'insurance_provider_id',
+        'insurance_fee',
+        'transaction_fee',
+        'discount_voucher',
+        'discount_amount',
+        'tax_amount',
+        'service_amount',
+        'mdr_fee',
+        'currency',
+        'price_unit',
+    ];
+
+    public function invoice(): BelongsTo
     {
-        return $this->belongsTo(Invoice::class);
+        return $this->belongsTo(Invoice::class, 'invoice_id');
 
     }
 }

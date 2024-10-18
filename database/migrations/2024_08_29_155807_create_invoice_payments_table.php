@@ -32,7 +32,6 @@ return new class extends Migration
             $table->string('payment_status_message')->nullable();
             $table->integer('payment_issued_at')->nullable();
             $table->integer('payment_expires_at')->nullable();
-            $table->json('metadata')->nullable();
 
             $table->foreignUlid('created_by')
                 ->index()
