@@ -32,7 +32,7 @@ class TestCase extends \Orchestra\Testbench\TestCase
      */
     protected function getEnvironmentSetUp($app)
     {
-        $app['config']->set('users_table_column_type', 'ulid');
+        $app['config']->set('userstamps.users_table_column_type', 'ulid');
         $app['config']->set('ledger.shipping_provider', Organization::class);
         $app['config']->set('ledger.insurance_provider', Organization::class);
         $app['config']->set('database.default', 'sqlite');
@@ -47,7 +47,7 @@ class TestCase extends \Orchestra\Testbench\TestCase
     protected function setUpDatabase($app)
     {
         $app['db.schema']->create('users', function ($table) {
-            $table->increments('id');
+            $table->ulid('id')->primary();
             $table->string('username');
             $table->string('email')->unique();
             $table->string('phone')->unique()->nullable();
@@ -56,13 +56,13 @@ class TestCase extends \Orchestra\Testbench\TestCase
         });
 
         $app['db.schema']->create('organizations', function ($table) {
-            $table->increments('id');
+            $table->ulid('id')->primary();
             $table->string('name');
             $table->timestamps();
         });
 
         $app['db.schema']->create('products', function ($table) {
-            $table->increments('id');
+            $table->ulid('id')->primary();
             $table->timestamps();
         });
     }

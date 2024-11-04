@@ -2,12 +2,14 @@
 
 namespace Turahe\Ledger\Tests\Models;
 
+use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Turahe\Ledger\Models\Voucher;
 use Turahe\Ledger\Tests\Factories\UserFactory;
 
 class User extends \Illuminate\Foundation\Auth\User
 {
+    use HasUlids;
     use HasFactory;
 
     protected $table = 'users';
