@@ -7,10 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Turahe\Ledger\Models\Invoice\Item;
+use Turahe\UserStamps\Concerns\HasUserStamps;
 
 class Invoice extends Model
 {
     use HasUlids;
+    use HasUserStamps;
 
     /**
      * @var string

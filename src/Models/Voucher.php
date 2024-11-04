@@ -8,10 +8,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Turahe\Ledger\Models\Voucher\Item;
+use Turahe\UserStamps\Concerns\HasUserStamps;
 
 class Voucher extends Model
 {
     use HasUlids;
+    use HasUserStamps;
 
     const EXPIRES_AT = 'due_date';
 
