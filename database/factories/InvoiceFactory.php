@@ -1,15 +1,15 @@
 <?php
 
-namespace Turahe\Ledger\Tests\Factories;
+namespace Turahe\Ledger\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Turahe\Ledger\Tests\Models\Invoice;
+use Turahe\Ledger\Models\Invoice;
 
 class InvoiceFactory extends Factory
 {
     protected $model = Invoice::class;
 
-    public function definition()
+    public function definition(): array
     {
         return [
             'code' => $this->faker->imei,

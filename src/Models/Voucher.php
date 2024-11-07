@@ -3,15 +3,18 @@
 namespace Turahe\Ledger\Models;
 
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Turahe\Ledger\Database\Factories\VoucherFactory;
 use Turahe\Ledger\Models\Voucher\Item;
 use Turahe\UserStamps\Concerns\HasUserStamps;
 
 class Voucher extends Model
 {
+    use HasFactory;
     use HasUlids;
     use HasUserStamps;
 
@@ -81,5 +84,10 @@ class Voucher extends Model
             'metadata',
         ]);
 
+    }
+
+    protected static function newFactory()
+    {
+        return VoucherFactory::new();
     }
 }

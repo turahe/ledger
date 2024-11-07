@@ -9,8 +9,8 @@ use Turahe\Ledger\Tests\Factories\UserFactory;
 
 class User extends \Illuminate\Foundation\Auth\User
 {
-    use HasUlids;
     use HasFactory;
+    use HasUlids;
 
     protected $table = 'users';
 

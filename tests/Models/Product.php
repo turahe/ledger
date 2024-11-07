@@ -9,8 +9,8 @@ use Turahe\Ledger\Tests\Factories\ProductFactory;
 
 class Product extends Model
 {
-    use HasUlids;
     use HasFactory;
+    use HasUlids;
 
     protected $table = 'products';
 

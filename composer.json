@@ -26,7 +26,8 @@
     },
     "autoload": {
         "psr-4": {
-            "Turahe\\Ledger\\": "src/"
+            "Turahe\\Ledger\\": "src/",
+            "Turahe\\Ledger\\Database\\Factories\\": "database/factories"
         }
     },
     "autoload-dev": {

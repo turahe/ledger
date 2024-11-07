@@ -4,8 +4,8 @@ namespace Turahe\Ledger\Tests\Unit;
 
 use Illuminate\Support\Collection;
 use PHPUnit\Framework\Attributes\Test;
+use Turahe\Ledger\Models\Voucher;
 use Turahe\Ledger\Tests\Models\User;
-use Turahe\Ledger\Tests\Models\Voucher;
 use Turahe\Ledger\Tests\TestCase;
 
 class VoucherTest extends TestCase
