@@ -18,8 +18,6 @@ return new class extends Migration
             $table->text('note')->nullable();
             $table->decimal('total_unit', 64, 4)->nullable();
             $table->decimal('total_value', 64, 4)->comment('amount is an decimal, it could be "dollars" or "cents"');
-            $table->integer('issue_date')->nullable();
-            $table->integer('due_date')->nullable();
 
             $table->foreignUlid('created_by')
                 ->index()

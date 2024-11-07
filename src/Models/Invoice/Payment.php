@@ -5,10 +5,12 @@ namespace Turahe\Ledger\Models\Invoice;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 use Turahe\Ledger\Enums\PaymentMethods;
+use Turahe\UserStamps\Concerns\HasUserStamps;
 
 class Payment extends Pivot
 {
     use HasUlids;
+    use HasUserStamps;
 
     public $dateFormat = 'U';
 

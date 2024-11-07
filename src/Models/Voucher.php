@@ -32,21 +32,7 @@ class Voucher extends Model
         'note',
         'total_unit',
         'total_value',
-        'issue_date',
-        'due_date',
     ];
-
-    /**
-     * @return string[]
-     */
-    protected function casts(): array
-    {
-        return [
-            'metadata' => 'object',
-            'due_date' => 'datetime',
-            'issue_date' => 'datetime',
-        ];
-    }
 
     public function shipping_provider(): BelongsTo
     {
