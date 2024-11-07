@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Turahe\Ledger\Enums\PaymentMethods;
 
 return new class extends Migration
 {
@@ -24,8 +25,13 @@ return new class extends Migration
                 ->cascadeOnUpdate();
 
             $table->decimal('amount');
-            $table->string('payment_gateway')->nullable();
-            $table->string('payment_method')->nullable();
+            $table->string('payment_gateway')->nullable()->index();
+            $table->foreign('payment_gateway')
+                ->references('code')
+                ->on('tm_banks')
+                ->cascadeOnDelete()
+                ->cascadeOnUpdate();
+            $table->enum('payment_method', array_column(PaymentMethods::cases(), 'value'))->default('CASH')->index();
             $table->string('payment_channel')->nullable();
             $table->float('payment_fee')->default(0);
             $table->string('payment_status_code')->nullable();

@@ -10,6 +10,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.3",
+        "turahe/master-data": "^1.0",
         "turahe/laravel-userstamps": "^1.0"
     },
     "require-dev": {
