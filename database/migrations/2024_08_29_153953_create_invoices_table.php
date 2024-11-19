@@ -26,9 +26,7 @@ return new class extends Migration
             $table->string('currency')->default('IDR')->index();
             $table->foreign('currency')
                 ->references('iso_code')
-                ->on('tm_currencies')
-                ->cascadeOnDelete()
-                ->cascadeOnUpdate();
+                ->on('tm_currencies');
 
             $table->integer('issue_date')->nullable();
             $table->integer('due_date')->nullable();
