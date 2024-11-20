@@ -18,15 +18,10 @@ return new class extends Migration
             $table->foreignIdFor(\Turahe\Ledger\Models\Voucher::class, 'receipt_id')->index();
 
             $table->string('currency')->default('IDR')->index();
-            $table->foreign('currency')
-                ->references('iso_code')
-                ->on('tm_currencies');
 
             $table->decimal('amount');
             $table->string('payment_gateway')->nullable()->index();
-            $table->foreign('payment_gateway')
-                ->references('code')
-                ->on('tm_banks');
+
             $table->enum('payment_method', array_column(PaymentMethods::cases(), 'value'))->default('CASH')->index();
             $table->string('payment_channel')->nullable();
             $table->float('payment_fee')->default(0);
