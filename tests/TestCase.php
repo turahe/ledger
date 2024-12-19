@@ -55,12 +55,6 @@ class TestCase extends \Orchestra\Testbench\TestCase
             $table->timestamps();
         });
 
-        $app['db.schema']->create('organizations', function ($table) {
-            $table->ulid('id')->primary();
-            $table->string('name');
-            $table->timestamps();
-        });
-
         $app['db.schema']->create('products', function ($table) {
             $table->ulid('id')->primary();
             $table->timestamps();
