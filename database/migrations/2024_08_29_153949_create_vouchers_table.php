@@ -30,8 +30,14 @@ return new class extends Migration
                 ->constrained('users')
                 ->cascadeOnDelete();
 
-            $table->integer('created_at')->index()->nullable();
-            $table->integer('updated_at')->index()->nullable();
+            if (config('core.table.use_timestamps')) {
+                $table->timestamps();
+                $table->softDeletes();
+            } else {
+                $table->integer('created_at')->index()->nullable();
+                $table->integer('updated_at')->index()->nullable();
+                $table->integer('deleted_at')->index()->nullable();
+            }
 
             $table->index('id', 'vouchers_id_idx', 'hash');
         });
@@ -61,8 +67,14 @@ return new class extends Migration
                 ->constrained('users')
                 ->cascadeOnDelete();
 
-            $table->integer('created_at')->index()->nullable();
-            $table->integer('updated_at')->index()->nullable();
+            if (config('core.table.use_timestamps')) {
+                $table->timestamps();
+                $table->softDeletes();
+            } else {
+                $table->integer('created_at')->index()->nullable();
+                $table->integer('updated_at')->index()->nullable();
+                $table->integer('deleted_at')->index()->nullable();
+            }
 
             $table->index('id', 'voucher_items_id_idx', 'hash');
             $table->index('model_id', 'voucher_items_model_id_idx', 'hash');
