@@ -1,48 +1,51 @@
 {
     "name": "turahe/ledger",
-    "description": "",
+    "description": "A ledger management system for handling vouchers and invoices.",
+    "license": "Propierty",
     "authors": [
         {
             "name": "Nur Wachid",
             "email": "wachid@outlook.com"
         }
     ],
-    "license": "Propierty",
-    "repositories": [{
-        "type": "composer",
-        "url": "https://packagist.wach.id"
-    }],
     "require": {
         "php": "^8.2",
-        "turahe/master-data": "^1.0",
-        "turahe/core": "^1.0"
+        "turahe/core": "^1.0",
+        "turahe/master-data": "^1.0"
     },
     "require-dev": {
         "laravel/pint": "^1.17",
-        "orchestra/testbench": "^9.4"
+        "orchestra/testbench": "^9.4 || ^10.0"
     },
-    "extra": {
-        "laravel": {
-            "providers": [
-                "Turahe\\Ledger\\Providers\\LedgerServiceProvider"
-            ],
-            "aliases": {}
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://packagist.x-api.app"
         }
-    },
+    ],
+    "minimum-stability": "stable",
+    "prefer-stable": true,
     "autoload": {
         "psr-4": {
-            "Turahe\\Ledger\\": "src/",
-            "Turahe\\Ledger\\Database\\Factories\\": "database/factories"
+            "Turahe\\Ledger\\": "src/"
+
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Turahe\\Ledger\\Tests\\": "tests/"
+            "Turahe\\Ledger\\Tests\\": "tests/",
+            "Turahe\\Ledger\\Database\\Factories\\": "database/factories"
         }
     },
     "config": {
         "sort-packages": true
     },
-    "minimum-stability": "stable",
-    "prefer-stable": true
+    "extra": {
+        "laravel": {
+            "aliases": {},
+            "providers": [
+                "Turahe\\Ledger\\Providers\\LedgerServiceProvider"
+            ]
+        }
+    }
 }

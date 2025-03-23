@@ -3,7 +3,6 @@
 namespace Turahe\Ledger\Models;
 
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -13,7 +12,6 @@ use Turahe\UserStamps\Concerns\HasUserStamps;
 
 class Invoice extends Model
 {
-    use HasFactory;
     use HasUlids;
     use HasUserStamps;
 

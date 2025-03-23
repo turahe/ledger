@@ -5,6 +5,7 @@ namespace Turahe\Ledger\Tests\Unit;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Collection;
 use PHPUnit\Framework\Attributes\Test;
+use Turahe\Ledger\Database\Factories\InvoiceFactory;
 use Turahe\Ledger\Models\Invoice;
 use Turahe\Ledger\Models\Invoice\Item;
 use Turahe\Ledger\Tests\Models\Product;
@@ -64,7 +65,7 @@ class InvoiceTest extends TestCase
     public function it_can_delete_a_invoice()
     {
         $user = User::factory()->create();
-        $invoice = Invoice::factory()->create([
+        $invoice = InvoiceFactory::new()->create([
             'model_id' => $user->getKey(),
             'model_type' => $user->getMorphClass(),
         ]);
@@ -78,7 +79,7 @@ class InvoiceTest extends TestCase
     public function it_errors_when_updating_the_invoice()
     {
         $user = User::factory()->create();
-        $invoice = Invoice::factory()->create([
+        $invoice = InvoiceFactory::new()->create([
             'model_id' => $user->getKey(),
             'model_type' => $user->getMorphClass(),
         ]);
@@ -91,7 +92,7 @@ class InvoiceTest extends TestCase
     public function it_can_update_the_invoice()
     {
         $user = User::factory()->create();
-        $invoice = Invoice::factory()->create([
+        $invoice = InvoiceFactory::new()->create([
             'model_id' => $user->getKey(),
             'model_type' => $user->getMorphClass(),
         ]);
@@ -109,12 +110,12 @@ class InvoiceTest extends TestCase
     public function it_can_find_the_invoice()
     {
         $user = User::factory()->create();
-        $invoice = Invoice::factory()->create([
+        $invoice = InvoiceFactory::new()->create([
             'model_id' => $user->getKey(),
             'model_type' => $user->getMorphClass(),
         ]);
 
-        $found = Invoice::find($invoice->id);
+        $found = Invoice::find($invoice->getKey());
 
         $this->assertInstanceOf(Invoice::class, $found);
         $this->assertEquals($invoice->code, $found->code);
@@ -124,7 +125,7 @@ class InvoiceTest extends TestCase
     public function it_can_find_the_invoice_has_items()
     {
         $user = User::factory()->create();
-        $invoice = Invoice::factory()->create([
+        $invoice = InvoiceFactory::new()->create([
             'model_id' => $user->getKey(),
             'model_type' => $user->getMorphClass(),
         ]);
@@ -153,7 +154,7 @@ class InvoiceTest extends TestCase
             $invoice->items()->create($item);
         }
 
-        $found = Invoice::find($invoice->id);
+        $found = Invoice::find($invoice->getKey());
 
         $this->assertInstanceOf(Invoice::class, $found);
         $this->assertInstanceOf(Collection::class, $found->items);
@@ -165,7 +166,7 @@ class InvoiceTest extends TestCase
     public function it_can_list_all_invoices()
     {
         $user = User::factory()->create();
-        $invoices = Invoice::factory(3)->create([
+        $invoices = InvoiceFactory::new()->count(3)->create([
             'model_id' => $user->getKey(),
             'model_type' => $user->getMorphClass(),
         ]);

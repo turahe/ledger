@@ -4,6 +4,7 @@ namespace Turahe\Ledger\Tests\Unit;
 
 use Illuminate\Support\Collection;
 use PHPUnit\Framework\Attributes\Test;
+use Turahe\Ledger\Database\Factories\VoucherFactory;
 use Turahe\Ledger\Models\Voucher;
 use Turahe\Ledger\Tests\Models\User;
 use Turahe\Ledger\Tests\TestCase;
@@ -36,7 +37,7 @@ class VoucherTest extends TestCase
     public function it_can_delete_a_voucher()
     {
         $user = User::factory()->create();
-        $voucher = Voucher::factory()->create([
+        $voucher = VoucherFactory::new()->create([
             'model_id' => $user->getKey(),
             'model_type' => $user->getMorphClass(),
         ]);
@@ -50,9 +51,9 @@ class VoucherTest extends TestCase
     public function it_errors_when_updating_the_voucher()
     {
         $user = User::factory()->create();
-        $voucher = Voucher::factory()->create([
-            'model_id' => $user->id,
-            'model_type' => User::class,
+        $voucher = VoucherFactory::new()->create([
+            'model_id' => $user->getKey(),
+            'model_type' => $user->getMorphClass(),
         ]);
         $this->expectException(\Exception::class);
 
@@ -63,9 +64,9 @@ class VoucherTest extends TestCase
     public function it_can_update_the_voucher()
     {
         $user = User::factory()->create();
-        $voucher = Voucher::factory()->create([
-            'model_id' => $user->id,
-            'model_type' => User::class,
+        $voucher = VoucherFactory::new()->create([
+            'model_id' => $user->getKey(),
+            'model_type' => $user->getMorphClass(),
         ]);
 
         $update = ['code' => 'code'];
@@ -81,12 +82,12 @@ class VoucherTest extends TestCase
     public function it_can_find_the_voucher()
     {
         $user = User::factory()->create();
-        $voucher = Voucher::factory()->create([
-            'model_id' => $user->id,
-            'model_type' => User::class,
+        $voucher = VoucherFactory::new()->create([
+            'model_id' => $user->getKey(),
+            'model_type' => $user->getMorphClass(),
         ]);
 
-        $found = Voucher::find($voucher->id);
+        $found = Voucher::find($voucher->getKey());
 
         $this->assertInstanceOf(Voucher::class, $found);
         $this->assertEquals($voucher->code, $found->code);
@@ -96,9 +97,9 @@ class VoucherTest extends TestCase
     public function it_can_list_all_vouchers()
     {
         $user = User::factory()->create();
-        $vouchers = Voucher::factory(3)->create([
-            'model_id' => $user->id,
-            'model_type' => User::class,
+        $vouchers = VoucherFactory::new()->count(3)->create([
+            'model_id' => $user->getKey(),
+            'model_type' => $user->getMorphClass(),
         ]);
 
         $this->assertInstanceOf(Collection::class, $vouchers);
